@@ -1,0 +1,19 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+
+.tag{
+    display:  inline-block;
+    background-color: violet;
+    padding: .5em;
+    border-radius: 15px;
+    margin: .5em;
+    min-width: 50px;
+    text-align: center;
+}
