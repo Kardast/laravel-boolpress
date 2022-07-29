@@ -8,16 +8,14 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //Display a listing of the resource.
     public function index(Request $request)
     {
-        $per_page = $request->query('per_page', 10);
-        if ($per_page < 1 || $per_page > 10) {
-            return response()->json(['success' => false], 400);
+        $per_page_default = 10;
+        $per_page = $request->query('per_page', $per_page_default);
+        if ($per_page < 1 || $per_page > 100) {
+            $per_page = $per_page_default;
+            // return response()->json(['success' => false], 400);
         }
 
         $posts = Post::with(['user', 'category', 'tags'])->paginate($per_page);
@@ -28,69 +26,32 @@ class PostController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    // Restituisce 9 post random per la homepage in Vue
+    public function random() {
+        $sql = Post::with(['user', 'category', 'tags'])->limit(9)->inRandomOrder();
+        $posts = $sql->get();
+
+        return response()->json([
+            // 'sql'       => $sql->toSql(), // solo per debugging
+            'success'   => true,
+            'result'    => $posts,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    //Display the specified resource.
+    public function show($slug)
     {
-        //
-    }
+        $post = Post::with(['user', 'category', 'tags'])->where('slug', $slug)->first();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Post $post)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Post $post)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Post $post)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Post $post)
-    {
-        //
+        if ($post) {
+            return response()->json([
+                'success'   => true,
+                'result'    => $post
+            ]);
+        } else {
+            return response()->json([
+                'success'   => false,
+            ]);
+        }
     }
 }

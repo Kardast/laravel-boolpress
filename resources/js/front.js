@@ -12,6 +12,8 @@ import PageBlog from './pages/PageBlog.vue';
 import PageAbout from './pages/PageAbout.vue';
 import PageContacts from './pages/PageContacts.vue';
 import PageShow from './pages/PageShow.vue';
+import Page404 from './pages/Page404.vue';
+
 
 const routes = [
     {
@@ -35,21 +37,27 @@ const routes = [
         component: PageContacts,
     },
     {
-        path: '/blog/:post',
+        path: '/blog/:slug',
         name: 'show',
         component: PageShow,
         props: true
     },
+    {
+        path: '*',
+        name: 'page404',
+        component: Page404
+    }
 ];
 
 const router = new VueRouter({
-    routes
+    routes,
+    mode: 'history',                    //per disattivare # sugli url
 });
 
 Vue.use(VueRouter);                     // diciamo a Vue di usare il plugin vue-router
 
 const app = new Vue({
     el: '#root',                        // id del componente nel file HTML dentro il quale opererà Vue
-    render: h => h(App),                 // monta il componente App nell'elemento root
+    render: h => h(App),                // monta il componente App nell'elemento root
     router,
 });
