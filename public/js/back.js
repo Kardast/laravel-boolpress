@@ -27804,26 +27804,24 @@ module.exports = function(module) {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // js per la conferma di delete
 // console.log('ciao');
-
-
-var eleOverlay = document.querySelector('.overlay');
-
-if (eleOverlay) {
-  var deleteButtons = document.querySelectorAll('.js-delete');
-  var formPopup = document.querySelector('.popup');
-  deleteButtons.forEach(function (button) {
-    button.addEventListener('click', function () {
-      eleOverlay.classList.remove('d-none');
-      var id = this.closest('[data-id]').dataset.id;
-      var pattern = formPopup.dataset.action;
-      var newAction = pattern.replace('*****', id);
-      formPopup.action = newAction;
-    });
-  });
-  document.querySelector('.js-no').addEventListener('click', function () {
-    eleOverlay.classList.add('d-none');
-  });
-}
+// DA SISTEMARE, Dà PROBLEMI CON LA VISUALIZZAZIONE DELLE CARDS NEL FRONT
+// const eleOverlay = document.querySelector('.overlay');
+// if (eleOverlay) {
+//     const deleteButtons = document.querySelectorAll('.js-delete');
+//     const formPopup = document.querySelector('.popup');
+//     deleteButtons.forEach(button => {
+//         button.addEventListener('click', function () {
+//             eleOverlay.classList.remove('d-none');
+//             const id = this.closest('[data-id]').dataset.id
+//             const pattern = formPopup.dataset.action;
+//             const newAction = pattern.replace('*****', id);
+//             formPopup.action = newAction;
+//         })
+//     });
+//     document.querySelector('.js-no').addEventListener('click', function() {
+//         eleOverlay.classList.add('d-none');
+//     })
+// }
 
 /***/ }),
 
