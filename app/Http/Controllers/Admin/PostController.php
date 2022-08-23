@@ -91,7 +91,7 @@ class PostController extends Controller
         return view('admin.posts.show', compact('post'));
     }
 
-
+    // EDIT
     public function edit(Post $post)
     {
         if (Auth::id() != $post->user_id) abort(401);
