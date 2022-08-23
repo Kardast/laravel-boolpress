@@ -41,14 +41,14 @@
 
         <div class="mb-3">
             <label class="form-label" for="image">Image</label>
-            <input class="form-control @error('image') is-invalid @enderror" type="file" name="image" id="image" accept="image/*"
-                value="{{ old('image', $post->image) }}"
-            >
+            <input class="form-control @error('image') is-invalid @enderror" type="file" name="image" id="image" accept="image/* "value="{{ old('image', $post->image) }}">
             @error('image')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
             @enderror
+
+            <img id="preview" class="img-fluid" src="{{ asset($post->image ? 'storage/' . $post->image : 'img/fallback.png') }}">
         </div>
 
         <div class="mb-3">

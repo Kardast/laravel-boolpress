@@ -60,19 +60,19 @@ class PostController extends Controller
         $this->validation_rules['slug'][] = 'unique:posts';
         $request->validate($this->validation_rules);
 
-        $form_data = $request->all();
+        $data = $request->all();
 
-        if (key_exists('image', $form_data)) {
+        if (key_exists('image', $data)) {
 
             // salvare l'immagine in public
-            $img_path = Storage::put('uploads', $form_data['image']);
+            $img_path = Storage::put('uploads', $data['image']);
 
             // aggiornare il valore della chiave image con il nome dell'immagine appena creata
-            $form_data['image'] = $img_path;
+            $data['image'] = $img_path;
         }
 
 
-        $data = $form_data + [
+        $data = $data + [
             'user_id' => Auth::id(),
         ];
 
@@ -111,7 +111,7 @@ class PostController extends Controller
         ]);
     }
 
-
+    // UPDATE
     public function update(Request $request, Post $post)
     {
         if (Auth::id() != $post->user_id) abort(401);
@@ -120,6 +120,19 @@ class PostController extends Controller
         $this->validation_rules['slug'][] = Rule::unique('posts')->ignore($post->id);
         $request->validate($this->validation_rules);
         $data = $request->all();
+
+        if (key_exists('image', $data)) {
+            if ($post->image) {
+                // eliminare il file precedente se esiste
+                Storage::delete($post->image);
+            };
+
+            // caricare il nuovo file
+            $img_path = Storage::put('uploads', $data['image']);
+
+            // aggiornare l'array $data con il percorso del file appena creato
+            $data['image'] = $img_path;
+        }
 
         // aggiornare nel database
         $post->update($data);

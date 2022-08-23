@@ -17,7 +17,7 @@
 
         <div class="mb-3">
             <label class="form-label" for="slug">Slug</label>
-            <input class="form-control @error('slug') is-invalid @enderror" type="text" name="slug" id="slug" accept="image/*" value="{{ old('slug') }}">
+            <input class="form-control @error('slug') is-invalid @enderror" type="text" name="slug" id="slug" value="{{ old('slug') }}">
             <button type="button" class="btn btn-primary">Reset</button>
             @error('slug')
                 <div class="invalid-feedback">
@@ -30,7 +30,7 @@
 
         <div class="mb-3">
             <label class="form-label" for="image">Image</label>
-            <input class="form-control @error('image') is-invalid @enderror" type="file" name="image" id="image" value="{{ old('image') }}">
+            <input class="form-control @error('image') is-invalid @enderror" type="file" name="image" id="image" accept="image/*" value="{{ old('image') }}">
             @error('image')
                 <div class="invalid-feedback">
                     {{ $message }}
