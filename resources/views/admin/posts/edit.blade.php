@@ -2,7 +2,7 @@
 
 @section('mainContent')
     <h1>Edit post</h1>
-    <form action="{{ route('admin.posts.update', ['post' => $post]) }}" method="post" novalidate>
+    <form action="{{ route('admin.posts.update', ['post' => $post]) }}" method="post" novalidate enctype="multipart/form-data">
         @csrf
         @method('put')
 
@@ -37,9 +37,11 @@
             @enderror
         </div>
 
+        {{-- IMG part --}}
+
         <div class="mb-3">
             <label class="form-label" for="image">Image</label>
-            <input class="form-control @error('image') is-invalid @enderror" type="url" name="image" id="image"
+            <input class="form-control @error('image') is-invalid @enderror" type="file" name="image" id="image" accept="image/*"
                 value="{{ old('image', $post->image) }}"
             >
             @error('image')

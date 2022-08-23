@@ -2,7 +2,7 @@
 
 @section('mainContent')
     <h1>Create new post</h1>
-    <form action="{{ route('admin.posts.store') }}" method="post" novalidate>
+    <form action="{{ route('admin.posts.store') }}" method="post" novalidate enctype="multipart/form-data">
         @csrf
 
         <div class="mb-3">
@@ -17,7 +17,7 @@
 
         <div class="mb-3">
             <label class="form-label" for="slug">Slug</label>
-            <input class="form-control @error('slug') is-invalid @enderror" type="text" name="slug" id="slug" value="{{ old('slug') }}">
+            <input class="form-control @error('slug') is-invalid @enderror" type="text" name="slug" id="slug" accept="image/*" value="{{ old('slug') }}">
             <button type="button" class="btn btn-primary">Reset</button>
             @error('slug')
                 <div class="invalid-feedback">
@@ -26,15 +26,19 @@
             @enderror
         </div>
 
+        {{-- img --}}
+
         <div class="mb-3">
             <label class="form-label" for="image">Image</label>
-            <input class="form-control @error('image') is-invalid @enderror" type="url" name="image" id="image" value="{{ old('image') }}">
+            <input class="form-control @error('image') is-invalid @enderror" type="file" name="image" id="image" value="{{ old('image') }}">
             @error('image')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
             @enderror
         </div>
+
+        {{-- fine img --}}
 
         <div class="mb-3">
             <label class="form-label" for="category_id">Category</label>

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -22,7 +23,7 @@ class PostController extends Controller
         'category_id'   => 'required|integer|exists:categories,id',
         'tags'          => 'nullable|array',
         'tags.*'        => 'integer|exists:tags,id',
-        'image'         => 'required_without:content|nullable|url',
+        'image'         => 'required_without:content|nullable|file|image|max:1024',
         'content'       => 'required_without:image|nullable|string|max:5000',
         'excerpt'       => 'nullable|string|max:200',
     ];
@@ -51,7 +52,7 @@ class PostController extends Controller
         ]);
     }
 
-
+    // STORE
     public function store(Request $request)
     {
 
@@ -59,7 +60,15 @@ class PostController extends Controller
         $this->validation_rules['slug'][] = 'unique:posts';
         $request->validate($this->validation_rules);
 
-        $data = $request->all() + [
+        $form_data = $request->all();
+
+        // salvare l'immagine in public
+        $img_path = Storage::put('uploads', $form_data['image']);
+
+        // aggiornare il valore della chiave image con il nome dell'immagine appena creata
+        $form_data['image'] = $img_path;
+
+        $data = $form_data + [
             'user_id' => Auth::id(),
         ];
 
