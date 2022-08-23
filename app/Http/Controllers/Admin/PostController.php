@@ -62,11 +62,15 @@ class PostController extends Controller
 
         $form_data = $request->all();
 
-        // salvare l'immagine in public
-        $img_path = Storage::put('uploads', $form_data['image']);
+        if (key_exists('image', $form_data)) {
 
-        // aggiornare il valore della chiave image con il nome dell'immagine appena creata
-        $form_data['image'] = $img_path;
+            // salvare l'immagine in public
+            $img_path = Storage::put('uploads', $form_data['image']);
+
+            // aggiornare il valore della chiave image con il nome dell'immagine appena creata
+            $form_data['image'] = $img_path;
+        }
+
 
         $data = $form_data + [
             'user_id' => Auth::id(),
