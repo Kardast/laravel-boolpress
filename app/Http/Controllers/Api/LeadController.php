@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Lead;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class LeadController extends Controller
 {
@@ -36,7 +37,30 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $form_data = $request->all();
+        // validation
+        $validation_rules = [
+            'name'          => 'required|string|max:100',
+            'email'         => 'required|email|max:256',
+            'message'       => 'required|string|max:8000',
+            'mailinglist'   => 'required|boolean',
+        ];
+
+        // per avere più controllo nel comportamento del validator
+        $validator = Validator::make($form_data, $validation_rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'success'   => false,
+                'response'  => $validator->errors(),
+            ]);
+        }
+
+        // salvare nel db
+        $lead = Lead::create($form_data);
+
+        // inviare mail al lead
+        Mail::to($lead->email)->send()
+
     }
 
     /**
