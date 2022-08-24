@@ -58,14 +58,26 @@ class LeadController extends Controller
             ]);
         }
 
-        // salvare nel db
-        $lead = Lead::create($form_data);
+        try {
+            // salvare nel db
+            $lead = Lead::create($form_data);
 
-        // inviare mail al lead
-        Mail::to($lead->email)->send(new LeadToLead($lead));
+            // inviare mail al lead
+            Mail::to($lead->email)->send(new LeadToLead($lead));
 
-        // inviare mail all'admin del sito
-        Mail::to('admin@bool.press')->send(new LeadToAdmin($lead));
+            // inviare mail all'admin del sito
+            Mail::to('admin@bool.press')->send(new LeadToAdmin($lead));
+        } catch (\Exception $e) {
+            return response()->json([
+                'success'   => false,
+                'response'  => 'C\'è stato un errore, riprova',
+            ], 500);
+        }
+
+        return response()->json([
+            'success'   => true,
+            'response'  => 'Messaggio inviato, verrai contattato al più presto',
+        ]);
 
 
     }
