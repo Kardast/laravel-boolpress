@@ -7,11 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    {{-- <h1>Ciao {{ $lead->name }}</h1> --}}
+    <h1>Ciao {{ $lead->name }}</h1>
     <p>
         Abbiamo ricevuto il tuo messaggio:
     </p>
-    {{-- <p>{{ $lead->message }}</p> --}}
+    <p>{{ $lead->message }}</p>
     <p>Qualcuno dei nostri ti risponderà al più presto</p>
 </body>
 </html>

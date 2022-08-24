@@ -61,7 +61,7 @@ class LeadController extends Controller
         $lead = Lead::create($form_data);
 
         // inviare mail al lead
-        Mail::to($lead->email)->send(new LeadToLead());
+        Mail::to($lead->email)->send(new LeadToLead($lead));
 
     }
 
