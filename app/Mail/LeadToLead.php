@@ -12,6 +12,7 @@ class LeadToLead extends Mailable
     use Queueable, SerializesModels;
 
     private $lead;
+
     /**
      * Create a new message instance.
      *

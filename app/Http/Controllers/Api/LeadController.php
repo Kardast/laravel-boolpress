@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Lead;
 use App\Mail\LeadToLead;
+use App\Mail\LeadToAdmin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -62,6 +63,10 @@ class LeadController extends Controller
 
         // inviare mail al lead
         Mail::to($lead->email)->send(new LeadToLead($lead));
+
+        // inviare mail all'admin del sito
+        Mail::to('admin@bool.press')->send(new LeadToAdmin($lead));
+
 
     }
 
