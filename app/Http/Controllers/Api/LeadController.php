@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Lead;
+use App\Mail\LeadToLead;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class LeadController extends Controller
@@ -59,7 +61,7 @@ class LeadController extends Controller
         $lead = Lead::create($form_data);
 
         // inviare mail al lead
-        Mail::to($lead->email)->send()
+        Mail::to($lead->email)->send(new LeadToLead);
 
     }
 
