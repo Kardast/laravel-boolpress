@@ -36,7 +36,7 @@ class PostController extends Controller
 
     // Restituisce 9 post random per la homepage in Vue
     public function random() {
-        $sql = Post::with(['user', 'category', 'tags'])->whereNotNull('image')->limit(21)->inRandomOrder();
+        $sql = Post::with(['user', 'category', 'tags'])->whereNotNull('image')->limit(9)->inRandomOrder();
         $posts = $sql->get();
 
         foreach ($posts as $post) {
